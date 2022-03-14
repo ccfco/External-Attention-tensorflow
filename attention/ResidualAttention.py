@@ -1,10 +1,13 @@
 import tensorflow as tf
 
-class ResidualAttention():
-    def __init__(self, num_class=1000, la=0.2):
-        super().__init__()
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras import Model
+
+class ResidualAttention(Model):
+    def __init__(self, num_class=1000, name='ResidualAttention', la=0.2):
+        super(ResidualAttention, self).__init__(name=name)
         self.la = la
-        self.fc = tf.keras.layers.Conv2D(filters=num_class, kernel_size=1, strides=1, use_bias=False)
+        self.fc = Conv2D(filters=num_class, kernel_size=1, strides=1, use_bias=False)
 
     def __call__(self, x):
         x = self.fc(x)

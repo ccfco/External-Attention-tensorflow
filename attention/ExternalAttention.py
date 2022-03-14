@@ -2,9 +2,18 @@ import numpy as np
 import torch
 from torch import nn
 from torch.nn import init
+import tensorflow as tf
+
+from tensorflow.keras import layers
+
+class ExternalAttention(layers.Layer):
+    def __init__(self, d_model, S=64):
+        super(ExternalAttention, self).__init__(name='ExternalAttention')
+        self.mk = layers.Dense(S)
 
 
-class ExternalAttention(nn.Module):
+
+class ExternalAttention_torch(nn.Module):
 
     def __init__(self, d_model, S=64):
         super().__init__()
