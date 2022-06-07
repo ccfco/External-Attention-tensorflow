@@ -8,6 +8,17 @@
 #### 1.2 Overview
 ![](attention/img/ResAtt.png)
 
+#### 1.3. UsageCode
+```python
+from ResidualAttention import ResidualAttention
+import tensorflow as tf
+
+input = tf.random.normal(shape=(50, 7, 7, 512))
+resatt = ResidualAttention(num_class=1000, la=0.2)
+output = resatt(input)
+print(output.shape)
+```
+
 ***
 
 ### 2.External Attention Usage
@@ -16,6 +27,17 @@
 
 #### 2.2. Overview
 ![](attention/img/External_Attention.png)
+
+#### 2.3. UsageCode
+```python
+from ExternalAttention import ExternalAttention
+import tensorlow as tf
+
+input = torch.randn(50, 49, 512)
+ea = ExternalAttention(d_model=512, S=8)
+output = ea(input)
+print(output.shape)
+```
 
 
 
