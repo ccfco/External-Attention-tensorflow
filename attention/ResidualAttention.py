@@ -9,7 +9,7 @@ class ResidualAttention(Model):
         self.la = la
         self.fc = Conv2D(filters=num_class, kernel_size=1, strides=1, use_bias=False)
 
-    def __call__(self, x):
+    def call(self, x):
         x = self.fc(x)
         b, h, w, c = x.shape
         y_raw = tf.reshape(x, [-1, h*w, c]) #b, hxw, num_class
