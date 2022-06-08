@@ -39,6 +39,26 @@ output = ea(input)
 print(output.shape)
 ```
 
+***
+
+### 3.Self Attention Usage
+#### 3.1. Paper
+["Attention Is All You Need"](https://arxiv.org/pdf/1706.03762.pdf)
+
+#### 3.2. Overview
+![](attention/img/SA.png)
+
+#### 2.3. UsageCode
+```python
+from attention.ExternalAttention import ExternalAttention
+import tensorflow as tf
+
+input = tf.random.normal(shape=(50, 49, 512))
+ea = ExternalAttention(d_model=512, S=8)
+output = ea(input)
+print(output.shape)
+```
+
 
 
 
