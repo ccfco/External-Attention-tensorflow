@@ -50,12 +50,12 @@ print(output.shape)
 
 #### 2.3. UsageCode
 ```python
-from attention.ExternalAttention import ExternalAttention
+from attention.SelfAttention import ScaledDotProductAttention
 import tensorflow as tf
 
-input = tf.random.normal(shape=(50, 49, 512))
-ea = ExternalAttention(d_model=512, S=8)
-output = ea(input)
+input = tf.random.normal((50, 49, 512))
+sa = ScaledDotProductAttention(d_model=512, d_k=512, d_v=512, h=8)
+output = sa(input, input, input)
 print(output.shape)
 ```
 
@@ -63,6 +63,7 @@ print(output.shape)
 
 
 
+***
 
 参考：小马[External-Attention-pytorch](https://github.com/xmu-xiaoma666/External-Attention-pytorch)
 侵权我删谢谢
