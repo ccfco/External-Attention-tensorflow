@@ -48,7 +48,7 @@ print(output.shape)
 #### 3.2. Overview
 ![](attention/img/SA.png)
 
-#### 2.3. UsageCode
+#### 3.3. UsageCode
 ```python
 from attention.SelfAttention import ScaledDotProductAttention
 import tensorflow as tf
@@ -59,6 +59,25 @@ output = sa(input, input, input)
 print(output.shape)
 ```
 
+***
+
+### 4.Self Attention Usage
+#### 4.1. Paper
+[None]()
+
+#### 4.2. Overview
+![](attention/img/SSA.png)
+
+#### 4.3. UsageCode
+```python
+from attention.SimplifiedSelfAttention import SimplifiedScaledDotProductAttention
+import tensorflow as tf
+
+input = tf.random.normal((50, 49, 512))
+ssa = SimplifiedScaledDotProductAttention(d_model=512, h=8)
+output = ssa(input, input, input)
+print(output.shape)
+```
 
 
 
