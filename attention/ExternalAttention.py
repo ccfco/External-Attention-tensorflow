@@ -10,13 +10,13 @@ class ExternalAttention(layers.Layer):
 
     def __init__(self, d_model, S=64):
         super(ExternalAttention, self).__init__(name='ExternalAttention')
-        self.mk = layers.Dense(S)
-        self.mv = layers.Dense(d_model)
+        self.mk = layers.Dense(S, use_bias=False)
+        self.mv = layers.Dense(d_model, use_bias=False)
 
     def call(self, queries):
         attn = self.mk(queries)  # bs,n,S
         attn = tf.nn.softmax(attn, axis=1)  # bs,n,S
-        attn = attn / tf.reduce_sum(attn, axis=2, keepdims=True)  # bs,n,S
+        attn = attn / tf.reduce_sum(attn, axis=2, keepdims=True)  # bs,n,S (l1_norm)
         out = self.mv(attn)  # bs,n,d_model
 
         return out
