@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@csgpu18:22 agent" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="attention">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@csgpu18:22 agent">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/disk2/chenlei/QoE/qiniuQoE/External-Attention-tensorflow" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@csgpu18:22 agent (1)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/disk2/chenlei/QoE/qiniuQoE/External-Attention-tensorflow" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

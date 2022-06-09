@@ -1,7 +1,7 @@
 # External-Attention-tensorflow
 
 
-### 1.Residual Attention Usage
+### 1. Residual Attention Usage
 #### 1.1. Paper
 [Residual Attention: A Simple but Effective Method for Multi-Label Recognition---ICCV2021](https://arxiv.org/abs/2108.02456)
 
@@ -21,7 +21,7 @@ print(output.shape)
 
 ***
 
-### 2.External Attention Usage
+### 2. External Attention Usage
 #### 2.1. Paper
 ["Beyond Self-attention: External Attention using Two Linear Layers for Visual Tasks"](https://arxiv.org/abs/2105.02358)
 
@@ -41,7 +41,7 @@ print(output.shape)
 
 ***
 
-### 3.Self Attention Usage
+### 3. Self Attention Usage
 #### 3.1. Paper
 ["Attention Is All You Need"](https://arxiv.org/pdf/1706.03762.pdf)
 
@@ -61,7 +61,7 @@ print(output.shape)
 
 ***
 
-### 4.Self Attention Usage
+### 4. Simplified Self Attention Usage
 #### 4.1. Paper
 [None]()
 
@@ -78,6 +78,27 @@ ssa = SimplifiedScaledDotProductAttention(d_model=512, h=8)
 output = ssa(input, input, input)
 print(output.shape)
 ```
+
+***
+
+### 4. Squeeze-and-Excitation Attention Usage
+#### 4.1. Paper
+["Squeeze-and-Excitation Networks"](https://arxiv.org/abs/1709.01507)
+
+#### 4.2. Overview
+![](attention/img/SE.png)
+
+#### 4.3. UsageCode
+```python
+from attention.SimplifiedSelfAttention import SimplifiedScaledDotProductAttention
+import tensorflow as tf
+
+input = tf.random.normal((50, 49, 512))
+ssa = SimplifiedScaledDotProductAttention(d_model=512, h=8)
+output = ssa(input, input, input)
+print(output.shape)
+```
+
 
 
 
