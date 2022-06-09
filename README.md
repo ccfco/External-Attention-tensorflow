@@ -81,14 +81,14 @@ print(output.shape)
 
 ***
 
-### 4. Squeeze-and-Excitation Attention Usage
-#### 4.1. Paper
+### 5. Squeeze-and-Excitation Attention Usage
+#### 5.1. Paper
 ["Squeeze-and-Excitation Networks"](https://arxiv.org/abs/1709.01507)
 
-#### 4.2. Overview
+#### 5.2. Overview
 ![](attention/img/SE.png)
 
-#### 4.3. UsageCode
+#### 5.3. UsageCode
 ```python
 from attention.SimplifiedSelfAttention import SimplifiedScaledDotProductAttention
 import tensorflow as tf
