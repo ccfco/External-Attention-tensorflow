@@ -90,12 +90,12 @@ print(output.shape)
 
 #### 5.3. UsageCode
 ```python
-from attention.SimplifiedSelfAttention import SimplifiedScaledDotProductAttention
+from attention.SEAttention import SEAttention
 import tensorflow as tf
 
-input = tf.random.normal((50, 49, 512))
-ssa = SimplifiedScaledDotProductAttention(d_model=512, h=8)
-output = ssa(input, input, input)
+input = tf.random.normal((50, 7, 7, 512))
+se = SEAttention(channel=512, reduction=8)
+output = se(input)
 print(output.shape)
 ```
 
