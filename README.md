@@ -99,6 +99,25 @@ output = se(input)
 print(output.shape)
 ```
 
+***
+
+### 6. SK Attention Usage
+#### 6.1. Paper
+["Selective Kernel Networks"](https://arxiv.org/pdf/1903.06586.pdf)
+
+#### 6.2. Overview
+![](attention/img/SK.png)
+
+#### 6.3. UsageCode
+```python
+from attention.SEAttention import SEAttention
+import tensorflow as tf
+
+input = tf.random.normal((50, 7, 7, 512))
+se = SEAttention(channel=512, reduction=8)
+output = se(input)
+print(output.shape)
+```
 
 
 
