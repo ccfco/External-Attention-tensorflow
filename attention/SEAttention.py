@@ -3,7 +3,7 @@ from tensorflow.keras import layers, Sequential
 
 class SEAttention(layers.Layer):
     def __init__(self, channel=512, reduction=16):
-        super().__init__()
+        super(SEAttention, self).__init__()
         self.avg_pool = layers.GlobalAvgPool2D()  # 同nn.AdaptiveAvgPool2d(1)， 但是注意torch的输出是保持4维的,而tensorflow不保持维度.
         self.fc = Sequential([
             layers.Dense(channel // reduction, use_bias=False),
