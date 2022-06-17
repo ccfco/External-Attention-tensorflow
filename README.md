@@ -119,6 +119,29 @@ output = se(input)
 print(output.shape)
 ```
 
+***
+
+### 7. CBAM Attention Usage
+#### 7.1. Paper
+["CBAM: Convolutional Block Attention Module"](https://openaccess.thecvf.com/content_ECCV_2018/papers/Sanghyun_Woo_Convolutional_Block_Attention_ECCV_2018_paper.pdf)
+
+#### 7.2. Overview
+![](attention/img/CBAM1.png)
+
+![](attention/img/CBAM2.png)
+
+#### 7.3. Usage Code
+```python
+from attention.CBAM import CBAMBlock
+import torch
+
+input=torch.randn(50,512,7,7)
+kernel_size=input.shape[2]
+cbam = CBAMBlock(channel=512,reduction=16,kernel_size=kernel_size)
+output=cbam(input)
+print(output.shape)
+
+```
 
 
 
