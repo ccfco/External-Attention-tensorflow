@@ -1,4 +1,4 @@
-# External-Attention-tensorflow
+# [External-Attention-tensorflow](https://github.com/ccfco-Ivan/External-Attention-tensorflow)
 
 
 ### 1. Residual Attention Usage
@@ -133,12 +133,12 @@ print(output.shape)
 #### 7.3. Usage Code
 ```python
 from attention.CBAM import CBAMBlock
-import torch
+import tensorflow as tf
 
-input=torch.randn(50,512,7,7)
-kernel_size=input.shape[2]
-cbam = CBAMBlock(channel=512,reduction=16,kernel_size=kernel_size)
-output=cbam(input)
+input = tf.random.normal((50, 7, 7, 512))
+kernel_size = input.get_shape()[1]
+cbam = CBAMBlock(channel=512, reduction=16, kernel_size=kernel_size)
+output = cbam(input)
 print(output.shape)
 
 ```
