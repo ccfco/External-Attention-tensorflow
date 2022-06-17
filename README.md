@@ -110,11 +110,11 @@ print(output.shape)
 
 #### 6.3. UsageCode
 ```python
-from attention.SEAttention import SEAttention
+from attention.SKAttention import SKAttention
 import tensorflow as tf
 
 input = tf.random.normal((50, 7, 7, 512))
-se = SEAttention(channel=512, reduction=8)
+se = SKAttention(channel=512, reduction=8)
 output = se(input)
 print(output.shape)
 ```
