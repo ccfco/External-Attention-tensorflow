@@ -4,7 +4,7 @@ from tensorflow.keras import layers, Sequential
 class SEAttention(layers.Layer):
     def __init__(self, channel=512, reduction=16):
         super(SEAttention, self).__init__()
-        self.avg_pool = layers.GlobalAvgPool2D()  # 同nn.AdaptiveAvgPool2d(1)， 但是注意torch的输出是保持4维的,而tensorflow不保持维度.
+        self.avg_pool = layers.GlobalAvgPool2D(keepdims=True)  # 同nn.AdaptiveAvgPool2d(1)， 但是注意torch的输出是保持4维的,而tensorflow不保持维度.
         self.fc = Sequential([
             layers.Dense(channel // reduction, use_bias=False),
             layers.Activation('relu'),
@@ -15,7 +15,7 @@ class SEAttention(layers.Layer):
     def call(self, x):
         b, h, w, c = x.get_shape()
         y = self.avg_pool(x)
-        y = tf.expand_dims(tf.expand_dims(self.fc(y), axis=1), axis=2)
+        y = self.fc(y)
         return x * tf.tile(y, (1, h, w, 1))
 
 if __name__ == '__main__':
