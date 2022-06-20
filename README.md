@@ -159,7 +159,6 @@ kernel_size = input.get_shape()[1]
 cbam = CBAMBlock(channel=512, reduction=16, kernel_size=kernel_size)
 output = cbam(input)
 print(output.shape)
-
 ```
 
 ***
@@ -186,7 +185,6 @@ input = tf.random.normal((50, 7, 7, 512))
 bam = BAMBlock(channel=512, reduction=16, dia_val=2)
 output = bam(input)
 print(output.shape)
-
 ```
 
 
