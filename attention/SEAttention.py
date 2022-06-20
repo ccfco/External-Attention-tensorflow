@@ -16,7 +16,7 @@ class SEAttention(layers.Layer):
         b, h, w, c = x.get_shape()
         y = self.avg_pool(x)
         y = self.fc(y)
-        return x * tf.tile(y, (1, h, w, 1))
+        return x * tf.tile(y, (1, h, w, 1))   # or use 'tf.broadcast_to(y, x.get_shape())'
 
 if __name__ == '__main__':
     input = tf.random.normal((50, 7, 7, 512))
