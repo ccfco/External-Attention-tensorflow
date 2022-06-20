@@ -162,6 +162,34 @@ print(output.shape)
 
 ```
 
+***
+
+### 8. BAM Attention Usage
+#### 8.1. Paper
+["BAM: Bottleneck Attention Module"](https://arxiv.org/pdf/1807.06514.pdf)
+
+#### 8.2. Overview
+![](attention/img/BAM.png)
+
+>这是CBAM同作者同时期的工作，工作与CBAM非常相似，也是双重Attention，不同的是CBAM是将两个attention的结果串联；而BAM是直接将两个attention矩阵进行相加。
+
+>Channel Attention方面，与SE的结构基本一样。Spatial Attention方面，还是在通道维度进行pool，然后用了两次3x3的空洞卷积，最后将用一次1x1的卷积得到Spatial Attention的矩阵。
+
+>最后Channel Attention和Spatial Attention矩阵进行相加（这里用到了广播机制），并进行归一化，这样一来，就得到了空间和通道结合的attention矩阵。
+
+#### 8.3. Usage Code
+```python
+from attention.BAM import BAMBlock
+import tensorflow as tf
+
+input = tf.random.normal((50, 7, 7, 512))
+bam = BAMBlock(channel=512, reduction=16, dia_val=2)
+output = bam(input)
+print(output.shape)
+
+```
+
+
 
 
 ***
