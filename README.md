@@ -8,6 +8,9 @@
 #### 1.2 Overview
 ![](attention/img/ResAtt.png)
 
+> Only 4 lines of code consistently leads to improvement of multi-label recognition, across many diverse pretrained models and datasets, even without any extra training.
+（在许多不同的预训练模型和数据集上，即使没有任何额外的训练，只用4行代码也可以提高多标签识别的准确率）
+
 #### 1.3. UsageCode
 ```python
 from attention.ResidualAttention import ResidualAttention
@@ -28,6 +31,8 @@ print(output.shape)
 #### 2.2. Overview
 ![](attention/img/External_Attention.png)
 
+>主要解决的Self-Attention(SA)的两个痛点问题：（1）O(n^2)的计算复杂度；(2)SA是在同一个样本上根据不同位置计算Attention，忽略了不同样本之间的联系。因此，本文采用了两个串联的MLP结构作为memory units，使得计算复杂度降低到了O(n)；此外，这两个memory units是基于全部的训练数据学习的，因此也隐式的考虑了不同样本之间的联系。
+
 #### 2.3. UsageCode
 ```python
 from attention.ExternalAttention import ExternalAttention
@@ -47,6 +52,8 @@ print(output.shape)
 
 #### 3.2. Overview
 ![](attention/img/SA.png)
+
+>这是Google在NeurIPS2017发表的一篇文章，在CV、NLP、多模态等各个领域都有很大的影响力，目前引用量已经4.5w+。Transformer中提出的Self-Attention是Attention的一种，用于计算特征中不同位置之间的权重，从而达到更新特征的效果。首先将input feature通过FC映射成Q、K、V三个特征，然后将Q和K进行点乘的得到attention map，再将attention map与V做点乘得到加权后的特征。最后通过FC进行特征的映射，得到一个新的特征。
 
 #### 3.3. UsageCode
 ```python
@@ -88,6 +95,8 @@ print(output.shape)
 #### 5.2. Overview
 ![](attention/img/SE.png)
 
+>这是CVPR2018的一篇文章，是做通道注意力的，因其简单的结构和有效性，将通道注意力掀起了一波小高潮。大道至简，这篇文章的思想非常简单，首先将spatial维度进行AdaptiveAvgPool，然后通过两个FC学习到通道注意力，并用Sigmoid进行归一化得到Channel Attention Map,最后将Channel Attention Map与原特征相乘，就得到了加权后的特征。
+
 #### 5.3. UsageCode
 ```python
 from attention.SEAttention import SEAttention
@@ -107,6 +116,10 @@ print(output.shape)
 
 #### 6.2. Overview
 ![](attention/img/SK.png)
+
+>这是CVPR2019的一篇文章，致敬了SENet的思想。在传统的CNN中每一个卷积层都是用相同大小的卷积核，限制了模型的表达能力；而Inception这种“更宽”的模型结构也验证了，用多个不同的卷积核进行学习确实可以提升模型的表达能力。作者借鉴了SENet的思想，通过动态计算每个卷积核得到通道的权重，动态的将各个卷积核的结果进行融合。
+
+>本文的方法分为三个部分：Split,Fuse,Select。Split就是一个multi-branch的操作，用不同的卷积核进行卷积得到不同的特征；Fuse部分就是用SE的结构获取通道注意力的矩阵(N个卷积核就可以得到N个注意力矩阵，这步操作对所有的特征参数共享)，这样就可以得到不同kernel经过SE之后的特征；Select操作就是将这几个特征进行相加。
 
 #### 6.3. UsageCode
 ```python
@@ -129,6 +142,12 @@ print(output.shape)
 ![](attention/img/CBAM1.png)
 
 ![](attention/img/CBAM2.png)
+
+>这是ECCV2018的一篇论文，这篇文章同时使用了Channel Attention和Spatial Attention，将两者进行了串联（文章也做了并联和两种串联方式的消融实验）。
+
+>Channel Attention方面，大致结构还是和SE相似，不过作者提出AvgPool和MaxPool有不同的表示效果，所以作者对原来的特征在Spatial维度分别进行了AvgPool和MaxPool，然后用SE的结构提取channel attention，注意这里是参数共享的，然后将两个特征相加后做归一化，就得到了注意力矩阵。
+
+>Spatial Attention和Channel Attention类似，先在channel维度进行两种pool后，将两个特征进行拼接，然后用7x7的卷积来提取Spatial Attention（之所以用7x7是因为提取的是空间注意力，所以用的卷积核必须足够大）。然后做一次归一化，就得到了空间的注意力矩阵。
 
 #### 7.3. Usage Code
 ```python
