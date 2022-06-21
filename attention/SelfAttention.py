@@ -19,11 +19,19 @@ class ScaledDotProductAttention(layers.Layer):
         self.fc_v = layers.Dense(h * d_k)
         self.fc_o = layers.Dense(d_model)
         self.dropout = layers.Dropout(dropout)
+        self.softmax = tf.nn.softmax
 
         self.d_model = d_model
         self.d_k = d_k
         self.d_v = d_v
         self.h = h
+
+    def transpose_for_scores(self, tensor: tf.Tensor, batch_size: int):
+        # Reshape from [batch_size, seq_length, all_head_size] to [batch_size, seq_length, num_attention_heads, attention_head_size]
+        tensor = tf.reshape(tensor=tensor, shape=(batch_size, -1, self.h, self.d_model))
+
+        # Transpose the tensor from [batch_size, seq_length, num_attention_heads, attention_head_size] to [batch_size, num_attention_heads, seq_length, attention_head_size]
+        return tf.transpose(tensor, perm=[0, 2, 1, 3])
 
     def call(self, queries, keys, values, attention_mask=None, attention_weights=None):
         """
@@ -36,23 +44,27 @@ class ScaledDotProductAttention(layers.Layer):
         :return:
         """
         b_s, nq = queries.shape[:2]
-        nk = keys.shape[1]
 
-        q = tf.reshape(self.fc_q(queries), (b_s, nq, self.h, self.d_k))
-        q = tf.transpose(q, (0, 2, 1, 3))  # (b_s, h, nq ,d_k)
-        k = tf.transpose(tf.reshape(self.fc_k(keys), (b_s, nk, self.h, self.d_k)), (0, 2, 3, 1))  # (b_s, h, d_k, nk)
-        v = tf.transpose(tf.reshape(self.fc_v(values), (b_s, nk, self.h, self.d_v)), (0, 2, 1, 3))  # (b_s, h, nk ,d_v)
+        q = self.transpose_for_scores(self.fc_q(queries), batch_size=b_s)  # (b_s, h, nq ,d_k)
+        k = self.transpose_for_scores(self.fc_k(keys), batch_size=b_s)  # (b_s, h, nk, d_k)
+        v = self.transpose_for_scores(self.fc_v(values), batch_size=b_s)  # (b_s, h, nk ,d_v)
 
-        att = tf.matmul(q, k) / np.sqrt(self.d_k)  # (b_s, h, nq, nk)
+        # Take the dot product between "query" and "key" to get the raw attention scores.
+        # (batch size, num_heads, seq_len_q, seq_len_k)
+        att = tf.matmul(q, k, transpose_b=True) / np.sqrt(self.d_k)
+
         if attention_weights is not None:
             att = att * attention_weights
         if attention_mask is not None:
-            att = att.masked_fill(attention_mask, -np.inf)
-        att = tf.nn.softmax(att, -1)
+            att = tf.multiply(att, attention_mask)
+
+        # Normalize the attention scores to probabilities.
+        att = self.softmax(att, -1)
+
         att = self.dropout(att)
 
         out = tf.reshape(tf.transpose(tf.matmul(att, v), (0, 2, 1, 3)), (b_s, nq, self.h * self.d_v))  # (b_s, nq, h*d_v)
-        out = self.fc_o(out)  # (bs, nq, d_model)
+        out = self.fc_o(out)  # (b_s, nq, d_model)
         return out
 
 
