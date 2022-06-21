@@ -1,6 +1,18 @@
 # [External-Attention-tensorflow](https://github.com/ccfco-Ivan/External-Attention-tensorflow)
 
-[toc]
+
+
+## Contents
+- [Attention Series](#attention-series)
+  - [1. Residual Attention Usage](#1-residual-attention-usage)
+  - [2. External Attention Usage](#2-external-attention-usage)
+  - [3. Self Attention Usage](#3-self-attention-usage)
+  - [4. Simplified Self Attention Usage](#4-simplified-self-attention-usage)
+  - [5. Squeeze-and-Excitation Attention Usage](#5-squeeze-and-excitation-attention-usage)
+  - [6. SK Attention Usage](#6-sk-attention-usage)
+  - [7. CBAM Attention Usage](#7-cbam-attention-usage)
+  - [8. BAM Attention Usage](#8-bam-attention-usage)
+  - [9. ECA Attention Usage](#9-eca-attention-usage)
 
 ## Attention Series
 
@@ -190,6 +202,32 @@ output = bam(input)
 print(output.shape)
 ```
 
+***
+
+### 9. ECA Attention Usage
+#### 9.1. Paper
+["ECA-Net: Efficient Channel Attention for Deep Convolutional Neural Networks"](https://arxiv.org/pdf/1910.03151.pdf)
+
+#### 9.2. Overview
+![](attention/img/ECA.png)
+
+>这是CVPR2020的一篇文章。 如上图所示，SE实现通道注意力是使用两个全连接层，而ECA是需要一个的卷积。作者这么做的原因一方面是认为计算所有通道两两之间的注意力是没有必要的，另一方面是用两个全连接层确实引入了太多的参数和计算量。
+
+>因此作者进行了AvgPool之后，只是使用了一个感受野为k的一维卷积（相当于只计算与相邻k个通道的注意力），这样做就大大的减少的参数和计算量。(i.e.相当于SE是一个global的注意力，而ECA是一个local的注意力)。
+
+#### 9.3. Usage Code
+```python
+from attention.ECAAttention import ECAAttention
+import tensorflow as tf
+
+input = tf.random.normal((50, 7, 7, 512))
+eca = ECAAttention(kernel_size=3)
+output = eca(input)
+print(output.shape)
+
+```
+
+***
 
 
 
