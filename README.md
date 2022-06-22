@@ -14,6 +14,7 @@
   - [8. BAM Attention Usage---BMCV2018](#8-bam-attention-usage)
   - [9. ECA Attention Usage---CVPR2020](#9-eca-attention-usage)
   - [10. DANet Attention Usage---CVPR2019](#10-danet-attention-usage)
+  - [11. Pyramid Split Attention Usage---arXiv 2021.05.30](#11-pyramid-split-attention-usage)
 
 ## Attention Series
 
@@ -244,7 +245,29 @@ input = tf.random.normal((50, 7, 7, 512))
 danet = DAModule(d_model=512, kernel_size=3, H=7, W=7)
 print(danet(input).shape)
 ```
+***
 
+### 11. Pyramid Squeeze Attention Usage
+
+#### 11.1. Paper
+["EPSANet: An Efficient Pyramid Squeeze Attention Block on Convolutional Neural Network"](https://doi.org/10.48550/arXiv.2105.14447)
+
+#### 11.2. Overview
+![Pyramid Squeeze Attention (PSA) module](attention/img/psa.jpg)![A detailed illustration of Squeeze and Concat(SPC) module](attention/img/psa2.jpg)
+>这是深大2021年5月30日在arXiv上上传的一篇文章，本文的目的是如何获取并探索不同尺度的空间信息来丰富特征空间。网络结构相对来说也比较简单，主要分成四步，第一步，将原来的feature根据通道分成n组然后对不同的组进行不同尺度的卷积，得到新的特征W1；第二步，通过使用SE权重模块提取不同尺度的特征图的注意力，得到channel-wise attention向量；第三步，对不同组进行softmax；第四步，将获得channel-wise attention与原来的特征W1相乘。
+
+#### 11.3. Usage Code
+```python
+from attention.PSA import PSA
+import tensorflow as tf
+
+input = tf.random.normal((50, 7, 7, 512))
+psa = PSA(channel=512, reduction=8)
+output = psa(input)
+print(output.shape)
+```
+
+***
 
 ***
 
