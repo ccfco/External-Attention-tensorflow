@@ -4,15 +4,16 @@
 
 ## Contents
 - [Attention Series](#attention-series)
-  - [1. Residual Attention Usage](#1-residual-attention-usage)
-  - [2. External Attention Usage](#2-external-attention-usage)
-  - [3. Self Attention Usage](#3-self-attention-usage)
+  - [1. Residual Attention Usage---ICCV2021](#1-residual-attention-usage)
+  - [2. External Attention Usage---arXiv 2021.05.05](#2-external-attention-usage)
+  - [3. Self Attention Usage---NIPS2017](#3-self-attention-usage)
   - [4. Simplified Self Attention Usage](#4-simplified-self-attention-usage)
-  - [5. Squeeze-and-Excitation Attention Usage](#5-squeeze-and-excitation-attention-usage)
-  - [6. SK Attention Usage](#6-sk-attention-usage)
-  - [7. CBAM Attention Usage](#7-cbam-attention-usage)
-  - [8. BAM Attention Usage](#8-bam-attention-usage)
-  - [9. ECA Attention Usage](#9-eca-attention-usage)
+  - [5. Squeeze-and-Excitation Attention Usage---CVPR2018](#5-squeeze-and-excitation-attention-usage)
+  - [6. SK Attention Usage---CVPR2019](#6-sk-attention-usage)
+  - [7. CBAM Attention Usage---ECCV2018](#7-cbam-attention-usage)
+  - [8. BAM Attention Usage---BMCV2018](#8-bam-attention-usage)
+  - [9. ECA Attention Usage---CVPR2020](#9-eca-attention-usage)
+  - [10. DANet Attention Usage---CVPR2019](#10-danet-attention-usage)
 
 ## Attention Series
 
@@ -224,11 +225,25 @@ input = tf.random.normal((50, 7, 7, 512))
 eca = ECAAttention(kernel_size=3)
 output = eca(input)
 print(output.shape)
-
 ```
-
 ***
+### 10. DANet Attention Usage
+#### 10.1. Paper
+["Dual Attention Network for Scene Segmentation"](https://arxiv.org/pdf/1809.02983.pdf)
 
+#### 10.2. Overview
+![](attention/img/danet.png)![](attention/img/danet2.png)
+>这是CVPR2019的文章，思想上就是将self-attention用到场景分割的任务中，不同的是self-attention是关注每个position之间的注意力，而本文将self-attention做了一个拓展，还做了一个通道注意力的分支，操作上和self-attention一样，不同的通道attention中把生成Q，K，V的三个Linear去掉了。最后将两个attention之后的特征进行element-wise sum。
+
+#### 10.3. Usage Code
+```python
+from attention.DANet import DAModule
+import tensorflow as tf
+
+input = tf.random.normal((50, 7, 7, 512))
+danet = DAModule(d_model=512, kernel_size=3, H=7, W=7)
+print(danet(input).shape)
+```
 
 
 ***
