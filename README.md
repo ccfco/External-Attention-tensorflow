@@ -16,7 +16,7 @@
   - [10. DANet Attention Usage---CVPR2019](#10-danet-attention-usage)
   - [11. Pyramid Split Attention Usage---arXiv 2021.05.30](#11-pyramid-split-attention-usage)
   - [12. Efficient Multi-Head Self-Attention Usage---arXiv 2021.05.28](#12-efficient-multi-head-self-attention-usage)
-  - 
+  - [13. Shuffle Attention Usage---arXiv 2021.01.30](#13-shuffle-attention-usage)
 
 ## Attention Series
 
