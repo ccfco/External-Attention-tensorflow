@@ -15,6 +15,8 @@
   - [9. ECA Attention Usage---CVPR2020](#9-eca-attention-usage)
   - [10. DANet Attention Usage---CVPR2019](#10-danet-attention-usage)
   - [11. Pyramid Split Attention Usage---arXiv 2021.05.30](#11-pyramid-split-attention-usage)
+  - [12. Efficient Multi-Head Self-Attention Usage---arXiv 2021.05.28](#12-efficient-multi-head-self-attention-usage)
+  - 
 
 ## Attention Series
 
@@ -268,6 +270,27 @@ print(output.shape)
 ```
 
 ***
+
+### 12. Efficient Multi-Head Self-Attention Usage
+
+#### 12.1. Paper
+["ResT: An Efficient Transformer for Visual Recognition"](https://arxiv.org/abs/2105.13677)
+
+#### 12.2. Overview
+![](attention/img/EMSA.jpg)
+>这是南大5月28日在arXiv上上传的一篇文章。本文解决的主要是SA的两个痛点问题：（1）Self-Attention的计算复杂度和n呈平方关系；（2）每个head只有q,k,v的部分信息，如果q,k,v的维度太小，那么就会导致获取不到连续的信息，从而导致性能损失。这篇文章给出的思路也非常简单，在SA中的FC之前，用了一个卷积来降低了空间的维度，从而得到空间维度上更小的K和V。
+
+#### 12.3. Usage Code
+```python
+from attention.EMSA import EMSA
+import tensorflow as tf
+
+input = tf.random.normal((50, 64, 512))
+emsa = EMSA(d_model=512, d_k=512, d_v=512, h=8, H=8, W=8, ratio=2, apply_transform=True)
+output = emsa(input, input, input)
+print(output.shape)
+```
+
 
 ***
 
