@@ -1,6 +1,6 @@
 # [External-Attention-tensorflow](https://github.com/ccfco-Ivan/External-Attention-tensorflow)
 
-
+[![OSCS Status](https://www.oscs1024.com/platform/badge/ccfco-Ivan/External-Attention-tensorflow.svg?size=small)](https://www.oscs1024.com/project/ccfco-Ivan/External-Attention-tensorflow?ref=badge_small)
 
 ## Contents
 - [Attention Series](#attention-series)
