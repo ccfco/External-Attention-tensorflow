@@ -290,6 +290,23 @@ emsa = EMSA(d_model=512, d_k=512, d_v=512, h=8, H=8, W=8, ratio=2, apply_transfo
 output = emsa(input, input, input)
 print(output.shape)
 ```
+***
+
+
+### 13. Shuffle Attention Usage
+
+#### 13.1. Paper
+["SA-NET: SHUFFLE ATTENTION FOR DEEP CONVOLUTIONAL NEURAL NETWORKS"](https://arxiv.org/pdf/2102.00240.pdf)
+
+#### 13.2. Overview
+![](./model/img/ShuffleAttention.jpg)
+
+#### 13.3. Usage Code
+```python
+from attention.ShuffleAttention import ShuffleAttention
+
+
+```
 
 
 ***
