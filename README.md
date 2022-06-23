@@ -303,8 +303,6 @@ print(output.shape)
 
 #### 13.3. Usage Code
 ```python
-from attention.ShuffleAttention import ShuffleAttention
-
 
 ```
 
