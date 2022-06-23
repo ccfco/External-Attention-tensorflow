@@ -299,7 +299,8 @@ print(output.shape)
 ["SA-NET: SHUFFLE ATTENTION FOR DEEP CONVOLUTIONAL NEURAL NETWORKS"](https://arxiv.org/pdf/2102.00240.pdf)
 
 #### 13.2. Overview
-![](./model/img/ShuffleAttention.jpg)
+![](attention/img/ShuffleAttention.png)
+
 
 #### 13.3. Usage Code
 ```python
