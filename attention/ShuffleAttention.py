@@ -42,7 +42,7 @@ class ShuffleAttention(layers.Layer):
         x = tf.reshape(x, (b*self.G, h, w, -1))  # bs*G, h, w, c//G
 
         # channel_split
-        x_0, x_1 = tf.split(x, 2, axis=3)  # bs*G, h, w, c//(2*G)
+        x_0, x_1 = tf.split(x, num_or_size_splits=2, axis=3)  # bs*G, h, w, c//(2*G)
 
         # channel attention
         x_channel = self.avg_pool(x_0)  # bs*G, 1, 1, c//(2*G)
