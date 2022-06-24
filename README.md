@@ -300,12 +300,20 @@ print(output.shape)
 
 #### 13.2. Overview
 ![](attention/img/ShuffleAttention.png)
-
+>采用Shuffle Units将两种注意力机制有效结合。具体来说，SA首先将通道维度分组为多个子特征，然后并行处理它们。其次，对于每个子特征，SA使用Shuffle Unit来描述空间和通道维度上的特征依赖关系。最后，对所有子特征进行聚合，并采用“channel shuffle”算子来实现不同子特征之间的信息通信。
 
 #### 13.3. Usage Code
 ```python
+from  attention.ShuffleAttention import ShuffleAttention
+import tensorflow as tf
 
+input = tf.random.normal((50, 7, 7, 512))
+se = ShuffleAttention(channel=512, G=8)
+output = se(input)
+print(output.shape)
 ```
+
+
 
 
 ***
