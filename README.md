@@ -17,6 +17,7 @@
   - [11. Pyramid Split Attention Usage---arXiv 2021.05.30](#11-pyramid-split-attention-usage)
   - [12. Efficient Multi-Head Self-Attention Usage---arXiv 2021.05.28](#12-efficient-multi-head-self-attention-usage)
   - [13. Shuffle Attention Usage---arXiv 2021.01.30](#13-shuffle-attention-usage)
+  - [14. MUSE Attention Usage---arXiv 2019.11.17](#14-muse-attention-usage)
 
 ## Attention Series
 
@@ -313,6 +314,30 @@ output = se(input)
 print(output.shape)
 ```
 
+***
+
+
+### 14. MUSE Attention Usage
+
+#### 14.1. Paper
+["MUSE: Parallel Multi-Scale Attention for Sequence to Sequence Learning"](https://arxiv.org/abs/1911.09483)
+
+#### 14.2. Overview
+![](./attention/img/MUSE.png)
+>这是北大团队2019年在arXiv上发布的一篇文章，主要解决的是Self-Attention（SA）只有全局捕获能力的缺点。如下图所示，当句子长度变长时，SA的全局捕获能力变弱，导致最终模型性能变差。因此，作者在文中引入了多个不同感受野的一维卷积来捕获多尺度的局部Attention，以此来弥补SA在建模长句子能力的不足。
+![](attention/img/MUSE2.jpg)
+>实现方式如模型结构所示的那样，将SA的结果和多个卷积的结果相加，不仅进行全局感知，还进行局部感知。最终通过引入多尺度的局部感知，使模型在翻译任务上的性能得到了提升。
+
+#### 14.3. Usage Code
+```python
+from attention.MUSEAttention import MUSEAttention
+import tensorflow as tf
+
+input = tf.random.normal((50, 49, 512))
+sa = MUSEAttention(d_model=512, d_k=512, d_v=512, h=8)
+output = sa(input, input, input)
+print(output.shape)
+```
 
 
 
