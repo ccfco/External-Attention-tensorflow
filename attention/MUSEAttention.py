@@ -2,7 +2,6 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers
 
-layers.DepthwiseConv2D
 
 class Depth_Pointwise_Conv1d(layers.Layer):
     def __init__(self, in_ch, out_ch, k):
