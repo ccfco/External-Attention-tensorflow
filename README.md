@@ -237,8 +237,7 @@ print(output.shape)
 ["Dual Attention Network for Scene Segmentation"](https://arxiv.org/pdf/1809.02983.pdf)
 
 #### 10.2. Overview
-![](attention/img/danet.png#pic_center)
-![](attention/img/danet2.png#pic_center)
+![](attention/img/danet.png)![](attention/img/danet2.png)
 >这是CVPR2019的文章，思想上就是将self-attention用到场景分割的任务中，不同的是self-attention是关注每个position之间的注意力，而本文将self-attention做了一个拓展，还做了一个通道注意力的分支，操作上和self-attention一样，不同的通道attention中把生成Q，K，V的三个Linear去掉了。最后将两个attention之后的特征进行element-wise sum。
 
 #### 10.3. Usage Code
@@ -280,7 +279,7 @@ print(output.shape)
 ["ResT: An Efficient Transformer for Visual Recognition"](https://arxiv.org/abs/2105.13677)
 
 #### 12.2. Overview
-![](attention/img/EMSA.jpg#pic_center)
+![](attention/img/EMSA.jpg)
 >这是南大5月28日在arXiv上上传的一篇文章。本文解决的主要是SA的两个痛点问题：（1）Self-Attention的计算复杂度和n呈平方关系；（2）每个head只有q,k,v的部分信息，如果q,k,v的维度太小，那么就会导致获取不到连续的信息，从而导致性能损失。这篇文章给出的思路也非常简单，在SA中的FC之前，用了一个卷积来降低了空间的维度，从而得到空间维度上更小的K和V。
 
 #### 12.3. Usage Code
@@ -326,9 +325,9 @@ print(output.shape)
 
 #### 14.2. Overview
 ![](./attention/img/MUSE.png)
-> 这是北大团队2019年在arXiv上发布的一篇文章，主要解决的是Self-Attention（SA）只有全局捕获能力的缺点。如下图所示，当句子长度变长时，SA的全局捕获能力变弱，导致最终模型性能变差。因此，作者在文中引入了多个不同感受野的一维卷积来捕获多尺度的局部Attention，以此来弥补SA在建模长句子能力的不足。
-> ![](attention/img/MUSE2.jpg#pic_center)
-> 实现方式如模型结构所示的那样，将SA的结果和多个卷积的结果相加，不仅进行全局感知，还进行局部感知。最终通过引入多尺度的局部感知，使模型在翻译任务上的性能得到了提升。
+>这是北大团队2019年在arXiv上发布的一篇文章，主要解决的是Self-Attention（SA）只有全局捕获能力的缺点。如下图所示，当句子长度变长时，SA的全局捕获能力变弱，导致最终模型性能变差。因此，作者在文中引入了多个不同感受野的一维卷积来捕获多尺度的局部Attention，以此来弥补SA在建模长句子能力的不足。
+![](attention/img/MUSE2.jpg)
+>实现方式如模型结构所示的那样，将SA的结果和多个卷积的结果相加，不仅进行全局感知，还进行局部感知。最终通过引入多尺度的局部感知，使模型在翻译任务上的性能得到了提升。
 
 #### 14.3. Usage Code
 ```python
