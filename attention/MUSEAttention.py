@@ -37,7 +37,7 @@ class MUSEAttention(layers.Layer):
         self.conv1 = Depth_Pointwise_Conv1d(h * d_v, d_model, 1)
         self.conv3 = Depth_Pointwise_Conv1d(h * d_v, d_model, 3)
         self.conv5 = Depth_Pointwise_Conv1d(h * d_v, d_model, 5)
-        self.dy_paras = tf.Variable(tf.ones(3))
+        self.dy_paras = tf.Variable(tf.ones(3), trainable=True)
         self.softmax = tf.nn.softmax
 
         self.d_model = d_model
