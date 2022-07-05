@@ -18,6 +18,7 @@
   - [12. Efficient Multi-Head Self-Attention Usage---arXiv 2021.05.28](#12-efficient-multi-head-self-attention-usage)
   - [13. Shuffle Attention Usage---arXiv 2021.01.30](#13-shuffle-attention-usage)
   - [14. MUSE Attention Usage---arXiv 2019.11.17](#14-muse-attention-usage)
+  - [15. SGE Attention Usage---arXiv 2019.05.23](#15-sge-attention-usage)
 
 ## Attention Series
 
@@ -138,7 +139,7 @@ print(output.shape)
 ![](attention/img/SK.png)
 
 >这是CVPR2019的一篇文章，致敬了SENet的思想。在传统的CNN中每一个卷积层都是用相同大小的卷积核，限制了模型的表达能力；而Inception这种“更宽”的模型结构也验证了，用多个不同的卷积核进行学习确实可以提升模型的表达能力。作者借鉴了SENet的思想，通过动态计算每个卷积核得到通道的权重，动态的将各个卷积核的结果进行融合。
-
+>
 >本文的方法分为三个部分：Split,Fuse,Select。Split就是一个multi-branch的操作，用不同的卷积核进行卷积得到不同的特征；Fuse部分就是用SE的结构获取通道注意力的矩阵(N个卷积核就可以得到N个注意力矩阵，这步操作对所有的特征参数共享)，这样就可以得到不同kernel经过SE之后的特征；Select操作就是将这几个特征进行相加。
 
 #### 6.3. UsageCode
@@ -164,9 +165,9 @@ print(output.shape)
 ![](attention/img/CBAM2.png)
 
 >这是ECCV2018的一篇论文，这篇文章同时使用了Channel Attention和Spatial Attention，将两者进行了串联（文章也做了并联和两种串联方式的消融实验）。
-
+>
 >Channel Attention方面，大致结构还是和SE相似，不过作者提出AvgPool和MaxPool有不同的表示效果，所以作者对原来的特征在Spatial维度分别进行了AvgPool和MaxPool，然后用SE的结构提取channel attention，注意这里是参数共享的，然后将两个特征相加后做归一化，就得到了注意力矩阵。
-
+>
 >Spatial Attention和Channel Attention类似，先在channel维度进行两种pool后，将两个特征进行拼接，然后用7x7的卷积来提取Spatial Attention（之所以用7x7是因为提取的是空间注意力，所以用的卷积核必须足够大）。然后做一次归一化，就得到了空间的注意力矩阵。
 
 #### 7.3. Usage Code
@@ -191,9 +192,9 @@ print(output.shape)
 ![](attention/img/BAM.png)
 
 >这是CBAM同作者同时期的工作，工作与CBAM非常相似，也是双重Attention，不同的是CBAM是将两个attention的结果串联；而BAM是直接将两个attention矩阵进行相加。
-
+>
 >Channel Attention方面，与SE的结构基本一样。Spatial Attention方面，还是在通道维度进行pool，然后用了两次3x3的空洞卷积，最后将用一次1x1的卷积得到Spatial Attention的矩阵。
-
+>
 >最后Channel Attention和Spatial Attention矩阵进行相加（这里用到了广播机制），并进行归一化，这样一来，就得到了空间和通道结合的attention矩阵。
 
 #### 8.3. Usage Code
@@ -217,7 +218,7 @@ print(output.shape)
 ![](attention/img/ECA.png)
 
 >这是CVPR2020的一篇文章。 如上图所示，SE实现通道注意力是使用两个全连接层，而ECA是需要一个的卷积。作者这么做的原因一方面是认为计算所有通道两两之间的注意力是没有必要的，另一方面是用两个全连接层确实引入了太多的参数和计算量。
-
+>
 >因此作者进行了AvgPool之后，只是使用了一个感受野为k的一维卷积（相当于只计算与相邻k个通道的注意力），这样做就大大的减少的参数和计算量。(i.e.相当于SE是一个global的注意力，而ECA是一个local的注意力)。
 
 #### 9.3. Usage Code
@@ -236,7 +237,8 @@ print(output.shape)
 ["Dual Attention Network for Scene Segmentation"](https://arxiv.org/pdf/1809.02983.pdf)
 
 #### 10.2. Overview
-![](attention/img/danet.png)![](attention/img/danet2.png)
+![](attention/img/danet.png#pic_center)
+![](attention/img/danet2.png#pic_center)
 >这是CVPR2019的文章，思想上就是将self-attention用到场景分割的任务中，不同的是self-attention是关注每个position之间的注意力，而本文将self-attention做了一个拓展，还做了一个通道注意力的分支，操作上和self-attention一样，不同的通道attention中把生成Q，K，V的三个Linear去掉了。最后将两个attention之后的特征进行element-wise sum。
 
 #### 10.3. Usage Code
@@ -278,7 +280,7 @@ print(output.shape)
 ["ResT: An Efficient Transformer for Visual Recognition"](https://arxiv.org/abs/2105.13677)
 
 #### 12.2. Overview
-![](attention/img/EMSA.jpg)
+![](attention/img/EMSA.jpg#pic_center)
 >这是南大5月28日在arXiv上上传的一篇文章。本文解决的主要是SA的两个痛点问题：（1）Self-Attention的计算复杂度和n呈平方关系；（2）每个head只有q,k,v的部分信息，如果q,k,v的维度太小，那么就会导致获取不到连续的信息，从而导致性能损失。这篇文章给出的思路也非常简单，在SA中的FC之前，用了一个卷积来降低了空间的维度，从而得到空间维度上更小的K和V。
 
 #### 12.3. Usage Code
@@ -324,9 +326,9 @@ print(output.shape)
 
 #### 14.2. Overview
 ![](./attention/img/MUSE.png)
->这是北大团队2019年在arXiv上发布的一篇文章，主要解决的是Self-Attention（SA）只有全局捕获能力的缺点。如下图所示，当句子长度变长时，SA的全局捕获能力变弱，导致最终模型性能变差。因此，作者在文中引入了多个不同感受野的一维卷积来捕获多尺度的局部Attention，以此来弥补SA在建模长句子能力的不足。
-![](attention/img/MUSE2.jpg)
->实现方式如模型结构所示的那样，将SA的结果和多个卷积的结果相加，不仅进行全局感知，还进行局部感知。最终通过引入多尺度的局部感知，使模型在翻译任务上的性能得到了提升。
+> 这是北大团队2019年在arXiv上发布的一篇文章，主要解决的是Self-Attention（SA）只有全局捕获能力的缺点。如下图所示，当句子长度变长时，SA的全局捕获能力变弱，导致最终模型性能变差。因此，作者在文中引入了多个不同感受野的一维卷积来捕获多尺度的局部Attention，以此来弥补SA在建模长句子能力的不足。
+> ![](attention/img/MUSE2.jpg#pic_center)
+> 实现方式如模型结构所示的那样，将SA的结果和多个卷积的结果相加，不仅进行全局感知，还进行局部感知。最终通过引入多尺度的局部感知，使模型在翻译任务上的性能得到了提升。
 
 #### 14.3. Usage Code
 ```python
@@ -338,7 +340,39 @@ sa = MUSEAttention(d_model=512, d_k=512, d_v=512, h=8)
 output = sa(input, input, input)
 print(output.shape)
 ```
+***
 
+
+### 15. SGE Attention Usage
+
+#### 15.1. Paper
+[Spatial Group-wise Enhance: Improving Semantic Feature Learning in Convolutional Networks](https://arxiv.org/pdf/1905.09646.pdf)
+
+#### 14.2. Overview
+![](attention/img/SGE.jpg)
+>这篇文章是[SKNet](#6-sk-attention-usage)作者在19年的时候在arXiv上挂出的文章，是一个轻量级Attention的工作，从核心代码中可以看出，引入的参数真的非常少，self.weight和self.bias都是和groups呈一个数量级的（几乎就是常数级别）。
+>
+>这篇文章的核心点是用局部信息和全局信息的相似性来指导语义特征的增强，总体的操作可以分为以下几步：
+>>1. 将特征分组，每组feature在空间上与其global pooling后的feature做点积（相似性）得到初始的attention mask 
+>>2. 对该attention mask进行减均值除标准差的normalize，并同时每个group学习两个缩放偏移参数使得normalize操作可被还原
+>>3. 最后经过sigmoid得到最终的attention mask并对原始feature group中的每个位置的feature进行scale
+>
+> 实验部分，作者也是在分类任务（ImageNet）和检测任务（COCO）上做了实验，能够在比[SK](#6-sk-attention-usage)、[CBAM](#7-cbam-attention-usage)、[BAM](#8-bam-attention-usage)等网络参数和计算量更小的情况下，获得更好的性能，证明了本文方法的高效性。
+
+
+#### 15.3. Usage Code
+```python
+from attention.SGE import SpatialGroupEnhance
+import torch
+from torch import nn
+from torch.nn import functional as F
+
+input=torch.randn(50,512,7,7)
+sge = SpatialGroupEnhance(groups=8)
+output=sge(input)
+print(output.shape)
+
+```
 
 
 ***
