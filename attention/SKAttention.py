@@ -5,7 +5,7 @@ from tensorflow.keras import layers, Sequential
 class SKAttention(layers.Layer):
     def __init__(self, channel=512, kernels=[1, 3, 5, 7], reduction=16, group=1, L=32):
         super(SKAttention, self).__init__()
-        self.d = max(L, channel//reduction)
+        self.d = max(L, channel // reduction)
         self.convs = []
         # self.convs = Sequential([])
         for k in kernels:
@@ -45,8 +45,9 @@ class SKAttention(layers.Layer):
         attention_weughts = tf.nn.softmax(attention_weughts, axis=0)  # k, bs, 1, 1, channel
 
         ### fuse
-        V = tf.reduce_sum(attention_weughts*feats, 0)
+        V = tf.reduce_sum(attention_weughts * feats, 0)
         return V
+
 
 if __name__ == '__main__':
     input = tf.random.normal((50, 7, 7, 512))

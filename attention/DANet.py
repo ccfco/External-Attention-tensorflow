@@ -1,7 +1,8 @@
 import tensorflow as tf
 from tensorflow.keras import layers
 from attention.SelfAttention import ScaledDotProductAttention
-from  attention.SimplifiedSelfAttention import SimplifiedScaledDotProductAttention
+from attention.SimplifiedSelfAttention import SimplifiedScaledDotProductAttention
+
 
 class PositionAttentionModule(layers.Layer):
     def __init__(self, d_model=512, kernel_size=3, H=7, W=7):
@@ -12,15 +13,16 @@ class PositionAttentionModule(layers.Layer):
     def call(self, x):
         bs, h, w, c = x.get_shape()
         y = self.cnn(x)
-        y = tf.reshape(y, shape=(bs, h*w, c))
+        y = tf.reshape(y, shape=(bs, h * w, c))
         y = self.pa(y, y, y)  # bs, h*w, c
         return y
+
 
 class ChannelAttentionModule(layers.Layer):
     def __init__(self, d_model=512, kernel_size=3, H=7, W=7):
         super(ChannelAttentionModule, self).__init__()
         self.cnn = layers.Conv2D(d_model, kernel_size=kernel_size, padding='same')
-        self.pa = SimplifiedScaledDotProductAttention(H*W, h=1)
+        self.pa = SimplifiedScaledDotProductAttention(H * W, h=1)
 
     def call(self, x):
         bs, h, w, c = x.get_shape()
@@ -28,6 +30,7 @@ class ChannelAttentionModule(layers.Layer):
         y = tf.reshape(y, shape=(bs, c, -1))  # bs, c, h*w
         y = self.pa(y, y, y)  # bs, c, h*w
         return y
+
 
 class DAModule(layers.Layer):
     def __init__(self, d_model=512, kernel_size=3, H=7, W=7):
@@ -41,7 +44,8 @@ class DAModule(layers.Layer):
         c_out = self.channel_attention_module(input)
         p_out = tf.reshape(p_out, shape=(bs, h, w, c))
         c_out = tf.reshape(tf.transpose(c_out, perm=[0, 2, 1]), shape=(bs, h, w, c))
-        return p_out+c_out
+        return p_out + c_out
+
 
 if __name__ == '__main__':
     input = tf.random.normal((50, 7, 7, 512))

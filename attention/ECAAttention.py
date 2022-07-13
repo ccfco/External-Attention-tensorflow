@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras import layers
 
+
 class ECAAttention(layers.Layer):
     def __init__(self, kernel_size=3):
         super(ECAAttention, self).__init__()
@@ -15,6 +16,7 @@ class ECAAttention(layers.Layer):
         y = self.sigmoid(y)  # bs, c, 1
         y = tf.transpose(tf.expand_dims(y, -1), (0, 2, 3, 1))  # bs, 1, 1, c
         return x * tf.broadcast_to(y, x.get_shape())
+
 
 if __name__ == '__main__':
     input = tf.random.normal((50, 7, 7, 512))

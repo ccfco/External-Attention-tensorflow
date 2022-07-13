@@ -2,24 +2,25 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, Sequential
 
+
 class EMSA(layers.Layer):
     def __init__(self, d_model, d_k, d_v, h, droupout=.1, H=7, W=7, ratio=3, apply_transform=True):
         super(EMSA, self).__init__()
         self.H = H
         self.W = W
-        self.fc_q = layers.Dense(h*d_k)
-        self.fc_k = layers.Dense(h*d_k)
-        self.fc_v = layers.Dense(h*d_v)
+        self.fc_q = layers.Dense(h * d_k)
+        self.fc_k = layers.Dense(h * d_k)
+        self.fc_v = layers.Dense(h * d_v)
         self.fc_o = layers.Dense(d_model)
         self.dropout = layers.Dropout(droupout)
 
         self.ratio = ratio
         if self.ratio > 1:
             self.sr = Sequential()
-            self.sr_conv = layers.Conv2D(d_model, kernel_size=ratio+1, strides=ratio, padding='same', groups=d_model)
+            self.sr_conv = layers.Conv2D(d_model, kernel_size=ratio + 1, strides=ratio, padding='same', groups=d_model)
             self.sr_ln = layers.LayerNormalization()
 
-        self. apply_transform = apply_transform and h>1
+        self.apply_transform = apply_transform and h > 1
         if self.apply_transform:
             self.transform = Sequential()
             self.transform.add(layers.Conv2D(h, kernel_size=1, strides=1, data_format='channels_first'))
@@ -77,16 +78,13 @@ class EMSA(layers.Layer):
         att = self.dropout(att)
 
         out = tf.reshape(tf.transpose(tf.matmul(att, v), perm=[0, 2, 1, 3]),
-                         shape=(b_s, nq, self.h*self.d_v))  # (bs, nq, h*d_v)
+                         shape=(b_s, nq, self.h * self.d_v))  # (bs, nq, h*d_v)
         out = self.fc_o(out)
         return out
+
 
 if __name__ == '__main__':
     input = tf.random.normal((50, 64, 512))
     emsa = EMSA(d_model=512, d_k=512, d_v=512, h=8, H=8, W=8, ratio=2, apply_transform=True)
     output = emsa(input, input, input)
     print(output.shape)
-
-
-
-

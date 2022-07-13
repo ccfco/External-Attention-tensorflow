@@ -2,6 +2,7 @@ import tensorflow as tf
 
 from tensorflow.keras import layers
 
+
 class ExternalAttention(layers.Layer):
 
     def __init__(self, d_model, S=64):
@@ -17,10 +18,9 @@ class ExternalAttention(layers.Layer):
 
         return out
 
+
 if __name__ == '__main__':
     input = tf.random.normal(shape=(50, 49, 512))
     ea = ExternalAttention(d_model=512, S=8)
     output = ea(input)
     print(output.shape)
-
-

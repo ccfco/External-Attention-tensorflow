@@ -3,6 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras import Model
 
+
 class ResidualAttention(Model):
     def __init__(self, num_class=1000, name='ResidualAttention', la=0.2):
         super(ResidualAttention, self).__init__(name=name)
@@ -12,11 +13,12 @@ class ResidualAttention(Model):
     def call(self, x):
         x = self.fc(x)
         b, h, w, c = x.shape
-        y_raw = tf.reshape(x, [-1, h*w, c]) #b, hxw, num_class
-        y_avg = tf.reduce_mean(y_raw, axis=1) #b, num_class
-        y_max = tf.reduce_max(y_raw, axis=1) #b, num_class
-        score = y_avg+self.la*y_max
+        y_raw = tf.reshape(x, [-1, h * w, c])  # b, hxw, num_class
+        y_avg = tf.reduce_mean(y_raw, axis=1)  # b, num_class
+        y_max = tf.reduce_max(y_raw, axis=1)  # b, num_class
+        score = y_avg + self.la * y_max
         return score
+
 
 if __name__ == '__main__':
     input = tf.random.normal(shape=(50, 7, 7, 512))

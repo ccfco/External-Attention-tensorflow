@@ -20,10 +20,12 @@ class Depth_Pointwise_Conv1d(layers.Layer):
             kernel_size=1,
             groups=1
         )
+
     def call(self, x):
         depth_conv_out = self.depth_conv(x)
         out = self.pointwise_conv(depth_conv_out)
         return out
+
 
 class MUSEAttention(layers.Layer):
     def __init__(self, d_model, d_k, d_v, h, dropout=1):
@@ -89,9 +91,9 @@ class MUSEAttention(layers.Layer):
         out = out + out2
         return out
 
+
 if __name__ == '__main__':
     input = tf.random.normal((50, 49, 512))
     sa = MUSEAttention(d_model=512, d_k=512, d_v=512, h=8)
     output = sa(input, input, input)
     print(output.shape)
-

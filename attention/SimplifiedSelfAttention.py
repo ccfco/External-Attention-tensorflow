@@ -2,6 +2,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers
 
+
 class SimplifiedScaledDotProductAttention(layers.Layer):
     """
     Scaled dot-product attention
@@ -17,13 +18,12 @@ class SimplifiedScaledDotProductAttention(layers.Layer):
         super(SimplifiedScaledDotProductAttention, self).__init__()
 
         self.d_model = d_model
-        self.d_k = d_model//h
-        self.d_v = d_model//h
+        self.d_k = d_model // h
+        self.d_v = d_model // h
         self.h = h
 
         self.fc_o = layers.Dense(d_model)
         self.dropout = layers.Dropout(dropout)
-
 
     def call(self, queries, keys, values, attention_mask=None, attention_weights=None):
         '''
@@ -50,7 +50,8 @@ class SimplifiedScaledDotProductAttention(layers.Layer):
         att = tf.nn.softmax(att, -1)
         att = self.dropout(att)
 
-        out = tf.reshape(tf.transpose(tf.matmul(att, v), (0, 2, 1, 3)), (b_s, nq, self.h * self.d_v))  # (b_s, nq, h*d_v)
+        out = tf.reshape(tf.transpose(tf.matmul(att, v), (0, 2, 1, 3)),
+                         (b_s, nq, self.h * self.d_v))  # (b_s, nq, h*d_v)
         out = self.fc_o(out)  # (b_s, nq, d_model)
         return out
 

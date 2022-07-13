@@ -1,13 +1,14 @@
 import tensorflow as tf
 from tensorflow.keras import layers, Sequential
 
+
 class ChannelAttention(layers.Layer):
     def __init__(self, channel, reduction=16):
         super(ChannelAttention, self).__init__()
         self.maxpool = layers.GlobalMaxPool2D(keepdims=True)
         self.avgpool = layers.GlobalAvgPool2D(keepdims=True)
         self.se = Sequential([
-            layers.Conv2D(channel//reduction, 1, use_bias=False),
+            layers.Conv2D(channel // reduction, 1, use_bias=False),
             layers.Activation('relu'),
             layers.Conv2D(channel, 1, use_bias=False)
         ])
@@ -18,8 +19,9 @@ class ChannelAttention(layers.Layer):
         avg_result = self.avgpool(x)
         max_out = self.se(max_result)
         avg_out = self.se(avg_result)
-        output = self.sigmoid(max_out+avg_out)
+        output = self.sigmoid(max_out + avg_out)
         return output
+
 
 class SpatialAttention(layers.Layer):
     def __init__(self, kernel_size=7):
@@ -35,6 +37,7 @@ class SpatialAttention(layers.Layer):
         output = self.sigmoid(output)
         return output
 
+
 class CBAMBlock(layers.Layer):
     def __init__(self, channel=512, reduction=16, kernel_size=49):
         super().__init__()
@@ -47,6 +50,7 @@ class CBAMBlock(layers.Layer):
         out = x * self.ca(x)
         out = out * self.sa(out)
         return out + residual
+
 
 if __name__ == '__main__':
     input = tf.random.normal((50, 7, 7, 512))

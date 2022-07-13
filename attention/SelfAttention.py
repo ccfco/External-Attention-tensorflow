@@ -2,10 +2,12 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers
 
+
 class ScaledDotProductAttention(layers.Layer):
     """
     Scaled dot-product attention
     """
+
     def __init__(self, d_model, d_k, d_v, h, dropout=.1):
         """
         :param d_model: Output dimensionality of the model
@@ -63,7 +65,8 @@ class ScaledDotProductAttention(layers.Layer):
 
         att = self.dropout(att)
 
-        out = tf.reshape(tf.transpose(tf.matmul(att, v), (0, 2, 1, 3)), (b_s, nq, self.h * self.d_v))  # (b_s, nq, h*d_v)
+        out = tf.reshape(tf.transpose(tf.matmul(att, v), (0, 2, 1, 3)),
+                         (b_s, nq, self.h * self.d_v))  # (b_s, nq, h*d_v)
         out = self.fc_o(out)  # (b_s, nq, d_model)
         return out
 
