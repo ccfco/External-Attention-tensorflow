@@ -490,6 +490,10 @@ print(output.shape)
 from attention.A2Attention import DoubleAttention
 import tensorflow as tf
 
+input = tf.random.normal((50, 7, 7, 512))
+a2 = DoubleAttention(512, 128, 128, True)
+output = a2(input)
+print(output.shape)
 ```
 
 ### 17. AFT Attention Usage
@@ -517,6 +521,10 @@ import tensorflow as tf
 from attention.AFT import AFT_FULL
 import tensorflow as tf
 
+input = tf.random.normal((50, 49, 512))
+aft_full = AFT_FULL(d_model=512, n=49)
+output = aft_full(input)
+print(output.shape)
 ```
 
 ### 18. Outlook Attention Usage
