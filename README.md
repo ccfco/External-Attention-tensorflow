@@ -547,7 +547,8 @@ print(output.shape)
 > 可以看出，在Outlook Attention中，每一个中心点的位置都与周围k*k个位置进行attention操作，这个步骤就有点类似卷积。
 
 #### 18.3. Usage Code
-[torch.nn.fold开发者说没有这个功能，未来没打算加，我以后看情况是否补充吧。点击看开发者回复](https://github.com/tensorflow/tensorflow/issues/52195#issuecomment-948915934)
+
+[torch.nn.fold开发者说没有这个功能，未来没打算加。我以后看情况是否补充吧。点击看开发者回复](https://github.com/tensorflow/tensorflow/issues/52195#issuecomment-948915934)
 
 ```python
 from attention.OutlookAttention import OutlookAttention
