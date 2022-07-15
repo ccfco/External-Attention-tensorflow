@@ -531,13 +531,23 @@ print(output.shape)
 
 #### 18.1. Paper
 
-[VOLO: Vision Outlooker for Visual Recognition"](https://arxiv.org/abs/2106.13112)
+[VOLO: Vision Outlooker for Visual Recognition---arXiv 2021.06.24"](https://arxiv.org/abs/2106.13112)
 
 #### 18.2. Overview
 
 ![](./attention/img/OutlookAttention.png)
 
+> Transformer-based模型在Visual Recognition领域，如果不借助额外的训练数据，比CNN-based模型要差一点。作者认为，这是因为token
+> embedding并没有进行细粒度特征表示，因此本文提出了一种新的Attention方式，通过局部信息的感知，能够获得更加细粒度的特征表示。
+>
+> > 整个框架分为两个分支，上面的分支用于生成attention map，下面的分支用于生成投影后的value。然后通过矩阵乘法得到outlook attention后的结果，最后通过Fold函数将feature map还原到输入大小。
+> > - 上面分支Linear是为了对特征进行embedding，之后对特征进行reshape，最后通过softmax得到每个位置和周围几个位置的注意力权重。
+> > - 下面分支同样进行embedding，之后通过unfold，也就是滑动窗口的形式将特征中的K*K区域取出来。
+>
+> 可以看出，在Outlook Attention中，每一个中心点的位置都与周围k*k个位置进行attention操作，这个步骤就有点类似卷积。
+
 #### 18.3. Usage Code
+[torch.nn.fold开发者说没有这个功能，未来没打算加，以后再补充。点击看开发者回复](https://github.com/tensorflow/tensorflow/issues/52195#issuecomment-948915934)
 
 ```python
 from attention.OutlookAttention import OutlookAttention
