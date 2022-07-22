@@ -570,10 +570,14 @@ import tensorflow as tf
 #### 19.3. Usage Code
 
 ```python
-
 from attention.ViP import WeightedPermuteMLP
 import tensorflow as tf
 
+input = tf.random.normal((64, 8, 8, 512))
+seg_dim = 8
+vip = WeightedPermuteMLP(512, seg_dim)
+output = vip(input)
+print(output.shape)
 ```
 
 ***
