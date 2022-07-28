@@ -599,6 +599,10 @@ None
 from attention.CoAtNet import CoAtNet
 import tensorflow as tf
 
+input = tf.random.normal((1, 224, 224, 3))
+coatnet = CoAtNet(in_ch=3)
+output = coatnet(input)
+print(output.shape)
 ```
 
 ***
