@@ -6,6 +6,7 @@ class HaloAttention(layers.Layer):
 
 if __name__ == '__main__':
     input = tf.random.normal((50, 7, 7, 512))
-    a2 = HaloAttention(512, 128, 128, True)
-    output = a2(input)
+    halo = HaloAttention(512, 128, 128, True)
+    output = halo(input)
     print(output.shape)
+    # 参考https://github.com/leondgarse/keras_cv_attention_models/blob/main/keras_cv_attention_models/halonet/halonet.py
