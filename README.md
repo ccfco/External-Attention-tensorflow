@@ -589,7 +589,14 @@ print(output.shape)
 
 #### 20.2. Overview
 
-None
+![](attention/img/CoAtNet.png)
+
+> 本文系统调研了CNN和Transformer的特性，并将两者结合提出新的家族式网络：CoAtNet，无额外数据时高达86%准确率，在JFT加持下，高达89.77%！性能优于CvT、BotNet和Swin等网络。
+> >Transformers 在计算机视觉方面吸引了越来越多的兴趣，但它们仍然落后于最先进的卷积网络。在这项工作中，我们表明虽然 Transformer 往往具有更大的模型容量，但由于缺乏正确的归纳偏差，它们的泛化可能比卷积网络更差。
+> >为了有效地结合两种架构的优势，我们提出了 CoAtNets（发音为“coat”nets），这是一个基于两个关键insight构建的混合模型系列：
+> >
+> >- 1. 深度卷积和自注意力可以通过简单的相对注意力自然地统一起来；
+> >- 2. 以有原则的方式垂直堆叠卷积层和注意力层在提高泛化、容量和效率方面非常有效。
 
 #### 20.3. Usage Code
 
@@ -610,7 +617,7 @@ print(output.shape)
 
 #### 21.1. Paper
 
-[Scaling Local Self-Attention for Parameter Efficient Visual Backbones"](https://arxiv.org/pdf/2103.12731.pdf)
+[Scaling Local Self-Attention for Parameter Efficient Visual Backbones](https://arxiv.org/pdf/2103.12731.pdf)
 
 #### 21.2. Overview
 
