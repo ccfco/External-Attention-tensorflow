@@ -46,7 +46,7 @@ class MBConvBlock(layers.Layer):
         # Depthwise convolution
         k = self.kernel_size
         s = self._stride
-        self._depthwise_conv = layers.Conv2D(filters=oup/oup, groups=oup, kernel_size=k, strides=s, padding='same',
+        self._depthwise_conv = layers.Conv2D(filters=oup, groups=oup, kernel_size=k, strides=s, padding='same',
                                              use_bias=False)
         self._bn1 = layers.BatchNormalization(momentum=self._bn_mom, epsilon=self._bn_eps)
 
