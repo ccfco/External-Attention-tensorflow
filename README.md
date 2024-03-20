@@ -646,9 +646,14 @@ import tensorflow as tf
 #### 22.3. Usage Code
 
 ```python
-from attention.PolarizedSelfAttention import ParallelPolarizedSelfAttention, SequentialPolarizedSelfAttention
+from attention.PolarizedSelfAttention import SequentialPolarizedSelfAttention
 import tensorflow as tf
 
+if __name__ == '__main__':
+    input_tensor = tf.random.normal([1, 7, 7, 512])
+    psa = SequentialPolarizedSelfAttention(channel=512)
+    output_tensor = psa(input_tensor)
+    print(output_tensor.shape)
 ```
 
 ***
